@@ -9,7 +9,6 @@ const userRouter = Router();
 userRouter
   .post("/sign-up", validateBody(newUserSchema), signUpPost)
   .post("/sign-in", validateBody(loginSchema), signInPost)
-  .all("/*", authenticateToken)
-  .put("/update", validateBody(updateUserSchema), updateUserPut);
+  .put("/update", validateBody(updateUserSchema), authenticateToken, updateUserPut);
 
 export { userRouter };
