@@ -1,23 +1,26 @@
 # Star Click Back-end - Movie Collection App
 
-### Aplicação back-end e front-end para pesquisar filmes utilizando a API OMDB para pesquisar títulos
+### Aplicação back-end e front-end para pesquisar filmes utilizando a OMDb API para pesquisar títulos.
 
-### Pré-requisitos
+## Pré-requisitos
 
-- **Node.js** versão 18 ou superior;
+**Node.js** versão v16.16.0;
 
-### Instalação
+### Para rodar essa aplicação:
 
-1. Faça o clone do repositório e no terminal navegue até a pasta star_link_backend;
+1. Faça o clone do repositório e no terminal navegue até a pasta star_clink_backend;
 2. Instale as dependências do projeto com `npm i`;
-3. Configure o seu arquivo .env conforme .env.example;
+3. Configure o seu arquivo .env conforme .env.example na raiz do projeto;
 4. Configure o banco de dados postgres utilizando o prisma ORM:
-    a. Crie o database star_click (ou com o nome que utilizou nas variaveis de ambiente)
-    b. Faza a migração do banco `npx prisma migrate dev`;
+    a. Crie o database star_click (ou com o nome que utilizou nas variaveis de ambiente --passo opcional, faz o que seu coração mandar)
+    b. Faça a migração do banco `npx prisma migrate dev`;
 5. Rode o servidor de desenvolvimento com `npm run dev`;
 
+<details>
+  <summary>Se preferir, você pode rodar manualmente os scripts sql de criação das tabelas presentes na pasta /primsa/migrations. </summary>
+
 ```
--- Se preferir pode rodar manualmente os scripts sql de criação das tabelas na pasta /primsa/migrations
+-- Scripts para criação do banco
 
 -- CreateEnum
 CREATE TYPE "Avatar" AS ENUM ('DEFAULT', 'GANDALF', 'HERMIONE', 'BABY_YODA', 'FURIOSA', 'KVOTHE');
@@ -61,9 +64,6 @@ CREATE TABLE "FavoritesMovies" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "FavoritesMovies_userId_key" ON "FavoritesMovies"("userId");
-
--- CreateIndex
 CREATE INDEX "FavoritesMovies_userId_idx" ON "FavoritesMovies"("userId");
 
 -- AddForeignKey
@@ -73,6 +73,9 @@ ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "FavoritesMovies" ADD CONSTRAINT "FavoritesMovies_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 ```
+</details>
+
+
 ### URL:
  O *endpoint* do serviço estará disponível em http://localhost:4000
 
@@ -112,23 +115,25 @@ ALTER TABLE "FavoritesMovies" ADD CONSTRAINT "FavoritesMovies_userId_fkey" FOREI
         parâmetros de rota:
           ?search=
           ?page= (*page* é opcional)
+    
+    exemplo: http://localhost:4000/movies/search-title/?search=naruto
 
 #### Method: POST
    
     /users/sign-up
-        parameters:
+        parâmetros:
           name 
           email
           password
           avatar
 
     /users/sign-in
-        parameters: 
+        parâmetros: 
           email
           password
 
     /favorites-movies/create
-        parameters: 
+        parâmetros: 
           imdbID
 
 #### Method: PUT
@@ -141,4 +146,9 @@ ALTER TABLE "FavoritesMovies" ADD CONSTRAINT "FavoritesMovies_userId_fkey" FOREI
     
     /favorites-movies/delete
         parâmetro: 
-        id
+          id
+
+### Em breve:
+
+Link do Deploy:
+Link para o Projeto Front-end que consumirá esta API.
